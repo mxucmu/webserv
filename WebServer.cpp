@@ -506,7 +506,6 @@ int     WebServer::_POST(int client_id)
     return ret;
 }
 
-// According to: https://stackoverflow.com/questions/8659808/how-does-http-file-upload-work
 int     WebServer::_fileUpload(int client_id)
 {
     std::string&    current_client_request_body = client_group[client_id]->client_request_body;
@@ -516,7 +515,7 @@ int     WebServer::_fileUpload(int client_id)
     std::string     fileName = current_client_request_body.substr(0, end_pos);
     size_t          seperator_pos = current_client_request_body.find("\r\n\r\n");
     current_client_request_body.erase(0, seperator_pos + 4);
-    seperator_pos = current_client_request_body.find("------");
+    seperator_pos = current_client_request_body.find("--");
     current_client_request_body.erase(seperator_pos);
       
     if (!write_file("site/temp/" + fileName, current_client_request_body, current_client_request_body.size()))
